@@ -30,7 +30,7 @@ public class TwitterProducer {
     String token = "1300378486100709376-vlLZMFksP6YY3jlYlLVxr22RUqx1Ak";
     String tokenSecret = "XG4MmbhjXfqwYVGVtbH4GpOFF8NObcRynK5COx5Ab6bBR";
 
-    List<String> terms = Lists.newArrayList("nuei");
+    List<String> terms = Lists.newArrayList("skyrim","bitcoin","usa","soccer");
 
     public TwitterProducer() {
     }
@@ -55,7 +55,7 @@ public class TwitterProducer {
         KafkaProducer<String, String> producer = createKafkaProducer();
 
         //add a shutdown hook
-        Runtime.getRuntime().addShutdownHook(new Thread(()-> {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("stopping application");
             logger.info("Shutting down Twitter client");
             client.stop();
@@ -96,7 +96,16 @@ public class TwitterProducer {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        //create producer
+        //create safe producer
+        properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+        properties.setProperty(ProducerConfig.ACKS_CONFIG, "all");
+        properties.setProperty(ProducerConfig.RETRIES_CONFIG, Integer.toString(Integer.MAX_VALUE));
+        properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
+        //compression type (set to snappy)
+        properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
+        //high thouroughput at the expense of a bit of tatency and CPU usage
+        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG,"20");
+        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG,Integer.toString(32*1024));
         return new KafkaProducer<>(properties);
     }
 
