@@ -12,6 +12,8 @@
         <module>KafkaBasics</module>
         <module>KafkaProducerTwitter</module>
         <module>KafkaConsumerElasticSearch</module>
+        <module>kafka-connect</module>
+        <module>kafka-streams-filter-tweets</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
