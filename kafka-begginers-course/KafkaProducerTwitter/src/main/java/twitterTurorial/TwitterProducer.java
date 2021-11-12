@@ -30,7 +30,7 @@ public class TwitterProducer {
     String token = "1300378486100709376-vlLZMFksP6YY3jlYlLVxr22RUqx1Ak";
     String tokenSecret = "XG4MmbhjXfqwYVGVtbH4GpOFF8NObcRynK5COx5Ab6bBR";
 
-    List<String> terms = Lists.newArrayList("skyrim","bitcoin","usa","soccer");
+    List<String> terms = Lists.newArrayList("tonyze");
 
     public TwitterProducer() {
     }
